@@ -1,70 +1,123 @@
-# Getting Started with Create React App
+# Nexon Folio Website
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A modern personal portfolio web application built with React, GSAP animations, EmailJS contact, Leaflet maps, and Firebase auth/storage/Firestore. The repository also contains a Sanity Studio to manage blog content.
 
-## Available Scripts
+## Tech Stack
+- React 17 (Create React App)
+- SCSS (Sass)
+- GSAP (local bonus package) for animations
+- EmailJS for contact form
+- React Router v6
+- Leaflet + React Leaflet for maps
+- Firebase (Auth, Firestore, Storage)
+- Sanity Studio v2 for blogging (`portfolio-blog/`)
 
-In the project directory, you can run:
+## Repository Layout
+```
+/ (root)
+├─ src/                    React web app source
+├─ public/                 Static assets
+├─ portfolio-blog/         Sanity Studio (content studio for blog)
+├─ gsap-bonus.tgz          Local GSAP bonus package
+├─ package.json            Web app package
+└─ portfolio-blog/package.json  Sanity Studio package
+```
 
-### `npm start`
+## Prerequisites
+- Node.js 16+ and npm (or yarn)
+- A Firebase project (if you plan to use your own credentials)
+- A Sanity account and project (optional, only if you will run the Studio)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Quick Start
+Install dependencies at the root for the web app:
+```bash
+npm install
+npm start
+```
+This runs the React app at `http://localhost:3000/`.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Install and run Sanity Studio:
+```bash
+cd portfolio-blog
+npm install
+npx sanity login --with-ci-token=no
+npm run start
+```
+The Studio runs at `http://localhost:3333/`.
 
-### `npm test`
+## Available Scripts (root)
+- `npm start`: Start React dev server
+- `npm run build`: Production build
+- `npm test`: Run tests
+- `npm run eject`: Eject CRA (irreversible)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Dev utilities (present):
+- `npm run dev`: Uses nodemon (not required for CRA; ignore unless you add a custom server)
 
-### `npm run build`
+## Available Scripts (portfolio-blog)
+- `npm run start`: Start Sanity Studio locally
+- `npm run build`: Build the Studio for production
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Configuration
+### Firebase
+Current config lives in `src/firebase.js`. For production, move secrets to environment variables.
+Recommended `.env` at project root:
+```bash
+REACT_APP_FIREBASE_API_KEY=...
+REACT_APP_FIREBASE_AUTH_DOMAIN=...
+REACT_APP_FIREBASE_PROJECT_ID=...
+REACT_APP_FIREBASE_STORAGE_BUCKET=...
+REACT_APP_FIREBASE_MESSAGING_SENDER_ID=...
+REACT_APP_FIREBASE_APP_ID=...
+REACT_APP_FIREBASE_MEASUREMENT_ID=...
+```
+Then update `src/firebase.js` to read from `process.env.REACT_APP_*` variables.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### EmailJS
+If the contact form uses EmailJS, configure your service, template, and public key and expose them via `.env` as well (example names):
+```bash
+REACT_APP_EMAILJS_PUBLIC_KEY=...
+REACT_APP_EMAILJS_SERVICE_ID=...
+REACT_APP_EMAILJS_TEMPLATE_ID=...
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Maps (Leaflet)
+Leaflet works out of the box with public tile servers. If you use a paid tile provider, keep the key in `.env`.
 
-### `npm run eject`
+### GSAP Bonus
+The project references a local package `gsap-bonus.tgz`. Ensure you have a valid GSAP Club Greensock license. If you do not, replace the dependency with the standard `gsap` from npm.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## Building
+Create a production build of the React app:
+```bash
+npm run build
+```
+Outputs to `build/`. Serve it with any static host (Vercel, Netlify, Nginx, etc.).
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Build Sanity Studio:
+```bash
+cd portfolio-blog
+npm run build
+```
+This outputs a static build in `./dist/` (inside `portfolio-blog/`). You can deploy it separately or host behind your site.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## Deployment
+- React app: Deploy the `build/` directory to your host.
+- Sanity Studio: Deploy `portfolio-blog/dist/` as a separate site or on a protected path/subdomain.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## Project Highlights
+- Animated intro and sections with GSAP
+- Typed animated letters component
+- Portfolio sections with images under `public/portfolio/`
+- Blog managed with Sanity (schemas in `portfolio-blog/schemas/`)
+- Contact page powered by EmailJS and a Leaflet map
+- Optional Google auth via Firebase
 
-## Learn More
+## Troubleshooting
+- If `gsap-bonus.tgz` fails to install, confirm you have access; otherwise switch to `gsap` from npm.
+- If CRA fails due to Node version, use Node 16/18.
+- If maps do not render, ensure CSS for Leaflet is included and tiles are reachable.
+- If EmailJS fails, verify keys, service/template IDs, and network requests in devtools.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## License
+This project is UNLICENSED. Review third‑party licenses (GSAP, Sanity, Firebase, Leaflet, EmailJS) before distribution.
